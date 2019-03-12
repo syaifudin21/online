@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'siswa',
+        'passwords' => 'siswas',
     ],
 
     /*
@@ -36,9 +36,24 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'siswa' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'siswas',
+        ],
+
+        'guru' => [
+            'driver' => 'session',
+            'provider' => 'gurus',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'superadmin' => [
+            'driver' => 'session',
+            'provider' => 'superadmins',
         ],
 
         'api' => [
@@ -65,10 +80,23 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'siswas' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Models\Siswa::class,
         ],
+        'gurus' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Guru::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'superadmins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\SuperAdmin::class,
+        ],
+        
 
         // 'users' => [
         //     'driver' => 'database',
@@ -92,8 +120,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'siswas' => [
+            'provider' => 'siswas',
             'table' => 'password_resets',
             'expire' => 60,
         ],
