@@ -75,7 +75,7 @@
 					</div>
 				  </div>
 
-				  
+				  <input type="hidden" name="redirect" value="{{url()->previous()}}">
 				</form>
 
 			  </div>

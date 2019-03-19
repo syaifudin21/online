@@ -74,7 +74,8 @@ class RouteServiceProvider extends ServiceProvider
              ->prefix('data')
              ->namespace($this->namespace)
              ->group(base_path('routes/data.php'));
-        Route::prefix('android')
+        Route::middleware('cors')
+             ->prefix('android')
              ->namespace($this->namespace)
              ->group(base_path('routes/android.php'));
     }

@@ -52,7 +52,7 @@ class KurikulumController extends Controller
         $kurikulum->save();
 
         if($kurikulum){
-            return redirect(route('superadmin.kelas.home', ['id_kurikulum'=> $kurikulum->id]))
+            return redirect($request->redirect)
             ->with(['alert'=> "'title':'Berhasil','text':'Data Berhasil Disimpan', 'icon':'success','buttons': false, 'timer': 1200"]);
         }else{
             return back()

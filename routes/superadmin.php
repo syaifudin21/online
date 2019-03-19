@@ -44,3 +44,31 @@ Route::get('/bab/edit/{id_mapel}', 'superadmin\BabController@edit')->name('super
 Route::put('/bab/update', 'superadmin\BabController@update')->name('superadmin.bab.update');
 Route::delete('/bab/delete/{id}', 'superadmin\BabController@delete')->name('superadmin.bab.delete');
 
+Route::get('/tahunajaran', 'superadmin\TahunAjaranController@index')->name('superadmin.ta.home');
+Route::get('/tahunajaran/tambah', 'superadmin\TahunAjaranController@create')->name('superadmin.ta.create');
+Route::post('/tahunajaran/tambah', 'superadmin\TahunAjaranController@store')->name('superadmin.ta.store');
+Route::get('/tahunajaran/edit/{id_ta}', 'superadmin\TahunAjaranController@edit')->name('superadmin.ta.edit');
+Route::get('/tahunajaran/{id}', 'superadmin\TahunAjaranController@show')->name('superadmin.ta.show');
+Route::put('/tahunajaran/update', 'superadmin\TahunAjaranController@update')->name('superadmin.ta.update');
+Route::delete('/tahunajaran/delete/{id}', 'superadmin\TahunAjaranController@delete')->name('superadmin.ta.delete');
+Route::get('/tahunajaran/siswa/{id}', 'superadmin\TahunAjaranController@taSiswa')->name('superadmin.ta.siswa');
+Route::get('/tahunajaran/siswa/absen/{id}', 'superadmin\TahunAjaranController@absenSiswa')->name('superadmin.ta.tes.absen');
+Route::get('/tahunajaran/siswa/nilai/{id}', 'superadmin\TahunAjaranController@nilaiSiswa')->name('superadmin.ta.tes.nilai');
+Route::post('/tahunajaran/siswa/nilai', 'superadmin\TahunAjaranController@nilaiStore')->name('superadmin.ta.tes.store');
+Route::get('/tahunajaran/siswa/nilailock/{id}', 'superadmin\TahunAjaranController@loknilai')->name('superadmin.ta.lock.nilai');
+Route::get('/tahunajaran/siswa/daftarulang/{id}', 'superadmin\TahunAjaranController@daftarUlang')->name('superadmin.ta.daftarulang');
+Route::post('/tahunajaran/siswa/daftarulang/store', 'superadmin\TahunAjaranController@storeDaftarUlang')->name('superadmin.ta.dddd.store');
+
+
+Route::get('/siswa/{nomor_user}', 'superadmin\SiswaController@show')->name('superadmin.siswa.show');
+Route::get('/siswa/status/{id}/{status}', 'superadmin\SiswaController@status')->name('superadmin.siswa.status');
+Route::get('/siswa/edit/{id}', 'superadmin\SiswaController@edit')->name('superadmin.siswa.edit');
+Route::put('/siswa/update', 'superadmin\SiswaController@update')->name('superadmin.siswa.update');
+Route::delete('/siswa/delete/{id}', 'superadmin\SiswaController@delete')->name('superadmin.siswa.delete');
+
+Route::get('/ruangkelas/tambah/{id_ta}', 'superadmin\RuangKelasController@create')->name('superadmin.rk.create');
+Route::post('/ruangkelas/tambah', 'superadmin\RuangKelasController@store')->name('superadmin.rk.store');
+Route::get('/ruangkelas/edit/{id}', 'superadmin\RuangKelasController@edit')->name('superadmin.rk.edit');
+Route::get('/ruangkelas/{id}', 'superadmin\RuangKelasController@show')->name('superadmin.rk.show');
+Route::put('/ruangkelas/update', 'superadmin\RuangKelasController@update')->name('superadmin.rk.update');
+Route::delete('/ruangkelas/delete/{id}', 'superadmin\RuangKelasController@delete')->name('superadmin.rk.delete');

@@ -53,7 +53,7 @@ class KelasController extends Controller
         $kelas->save();
 
         if($kelas){
-            return redirect(route('superadmin.mapel.home', ['id_kelas'=> $kelas->id]))
+            return redirect($request->redirect)
             ->with(['alert'=> "'title':'Berhasil','text':'Data Berhasil Disimpan', 'icon':'success','buttons': false, 'timer': 1200"]);
         }else{
             return back()

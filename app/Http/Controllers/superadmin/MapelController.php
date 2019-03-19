@@ -53,7 +53,7 @@ class MapelController extends Controller
         $mapel->save();
 
         if($mapel){
-            return redirect(route('superadmin.bab.home', ['id_mapel'=> $mapel->id]))
+            return redirect($request->redirect)
             ->with(['alert'=> "'title':'Berhasil','text':'Data Berhasil Disimpan', 'icon':'success','buttons': false, 'timer': 1200"]);
         }else{
             return back()

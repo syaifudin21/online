@@ -69,9 +69,9 @@
     <aside class="app-sidebar" style="background-color: {{env('THEME_COLOR_3')}}">
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{{asset(env('APP_LOGO'))}}" alt="User Image" style="max-height: 64px; max-width: 64px">
         <div>
-          <p class="app-sidebar__user-name">Nama Saya</p>
+          <p class="app-sidebar__user-name">Admin</p>
        
-          <p class="app-sidebar__user-name"><small>Outlet</small></p>
+          <p class="app-sidebar__user-name"><small>Super Admin</small></p>
         </div>
       </div>
       <ul class="app-menu">
@@ -79,6 +79,8 @@
         <li><a class="app-menu__item {{(Request::is('superadmin'))? 'active': ''}}" href="{{route('superadmin.home')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
         
         <li><a class="app-menu__item {{(Request::is('superadmin/kurikulum') OR \Request::is('superadmin/kurikulum/*'))? 'active': ''}}" href="{{route('superadmin.kurikulum.home')}}"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Kurikulum</span></a></li>
+
+        <li><a class="app-menu__item {{(Request::is('superadmin/ta') OR \Request::is('superadmin/ta/*'))? 'active': ''}}" href="{{route('superadmin.ta.home')}}"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Tahun Ajaran</span></a></li>
 
       </ul>
     </aside>

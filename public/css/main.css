@@ -14678,7 +14678,6 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small .info h4 {
-  text-transform: uppercase;
   margin: 0;
   margin-bottom: 5px;
   font-weight: 400;

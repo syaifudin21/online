@@ -15,7 +15,7 @@ class Siswa extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nama', 'username', 'nomor_user', 'password',
+        'nama', 'username', 'nomor_user', 'password', 'attribut'
     ];
 
     /**

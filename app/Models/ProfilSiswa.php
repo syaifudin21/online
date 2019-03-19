@@ -3,8 +3,44 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class ProfilSiswa extends Model
 {
-	protected $fillable = ['id_ta','nomor_user','no_induk', 'nama', 'tgl', 'jk', 'nisn', 'agama', 'alamat', 'tinggal', 'transportasi', 'nomor_hp', 'nama_ayah', 'nama_ibu', 'tgl_ayah', 'tgl_ibu', 'nomor_hp_ortu', 'pendidikan_ayah', 'pendidikan_ibu', 'pekerjaan_ayah', 'pekerjaan_ibu', 'alamat_ortu', 'penghasilan_ayah', 'penghasilan_ibu', 'keterangan_ayah', 'keterangan_ibu', 'tinggi', 'berat', 'jarak_sekolah', 'tempu_sekolah', 'anak_ke', 'jml_saudara', 'foto', 'akte', 'kps', 'ijazah', 'sekolah_asal', 'sekolah_alamat', 'sekolah_angkatan', 'nilai_test','minat_jurusan','diterima_kelas', 'status'];
+	protected $fillable = [
+        'id_ta','no_induk','nomor_user','nisn','nama','ttl','jk','agama','alamat','tinggal','transportasi','nomor_hp','ayah','ibu','keluarga','foto','sekolah_asal','ket_tambahan','prestasi','pendaftaran','status'
+    ];
+    
+    public function ta(){
+        return $this->belongsTo(TahunAjaran::class, 'id_ta', 'id');
+    }
+    // public function bab()
+    // {
+    //     return $this->hasMany(Bab::class, 'id_mapel', 'id');
+    // }
+	
+	function createNoUser($nopendaftar){
+        $kodesekolah = env('SEKOLAH_KODE');
+        $kodeuser = 10;
+        $th = date('y');
+        $no = sprintf('%04d', $nopendaftar);
+        return $kodesekolah.$kodeuser.$th.$no;
+    }
+    public function umur($tgl)
+    {
+        // %y = tahun %m = bulan %d hari
+        $umur = Carbon::parse($tgl)->diff(Carbon::now())->format('%y Tahun, %m Bulan');
+        return $umur;
+    }
+    public function getAge(){
+        $this->ttl->diff(Carbon::now())
+             ->format('%y years, %m months and %d days');
+    }
+
+    // untuk menggabungkan json
+    // $data = json_decode($user->pendaftaran, true);
+    //     $data['waktusenggang'] = 'beseok';
+
+    // mengubah isi json
+        // $user['pendaftaran->waktu_daftar'] = $jsonData;
 }

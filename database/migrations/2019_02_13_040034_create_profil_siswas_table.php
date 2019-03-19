@@ -19,45 +19,23 @@ class CreateProfilSiswasTable extends Migration
             $table->Integer('no_induk')->nullable();
             $table->Integer('nomor_user')->nullable();
             $table->bigInteger('nisn');
-            $table->string('nama');
-            $table->string('tgl');
+            $table->string('nama'); //
+            $table->string('ttl'); //tempat, tgl
             $table->enum('jk', ['Laki-laki', 'Perempuan']);
             $table->enum('agama', ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Budha', 'Kong Hu Cu']);
             $table->string('alamat');
-            $table->enum('tinggal', ['Orang Tua', 'Kost', 'Asrama', 'Lainnya']);
-            $table->enum('transportasi', ['Sepeda Motor', 'Jalan Kaki', 'Transportasi Umum', 'Lainnya']);
+            $table->enum('tinggal', ['Orang Tua', 'Kost', 'Asrama', 'Lainnya'])->nullable();
+            $table->enum('transportasi', ['Sepeda Motor', 'Jalan Kaki', 'Transportasi Umum', 'Lainnya'])->nullable();
             $table->string('nomor_hp');
-            $table->string('nama_ayah');
-            $table->string('nama_ibu');
-            $table->string('tgl_ayah');
-            $table->string('tgl_ibu');
-            $table->string('nomor_hp_ortu');
-            $table->string('pendidikan_ayah')->nullable();
-            $table->string('pendidikan_ibu')->nullable();
-            $table->string('pekerjaan_ayah')->nullable();
-            $table->string('pekerjaan_ibu')->nullable();
-            $table->string('alamat_ortu')->nullable();
-            $table->string('penghasilan_ayah')->nullable();
-            $table->string('penghasilan_ibu')->nullable();
-            $table->enum('keterangan_ayah', ['Hidup', 'Meninggal'])->default('Meninggal');
-            $table->enum('keterangan_ibu', ['Hidup', 'Meninggal'])->default('Meninggal');
-            $table->string('tinggi');
-            $table->string('berat');
-            $table->string('jarak_sekolah');
-            $table->string('tempu_sekolah');
-            $table->string('anak_ke')->nullable();
-            $table->string('jml_saudara')->nullable();
-            $table->text('foto');
-            $table->text('akte')->nullable();
-            $table->text('kps')->nullable();
-            $table->text('ijazah');
-            $table->string('sekolah_asal');
-            $table->string('sekolah_alamat');
-            $table->integer('sekolah_angkatan');
-            $table->integer('nilai_test')->nullable();
-            $table->string('minat_jurusan')->nullable();
-            $table->string('diterima_kelas')->nullable();
-            $table->enum('status', ['Diterima','Gagal', 'Daftar', 'Verifikasi Siswa', 'Verifikasi Admin'])->default('Daftar');
+            $table->text('ayah'); //nama, tempat_lahir, tgl_lahir, pekerjaan, penghasilan, hidup
+            $table->text('ibu');//nama, tempat_lahir, tgl_lahir, pekerjaan, penghasilan, hidup
+            $table->string('keluarga'); //alamat ortu, nomor hp orut, anak_ke, jml_saudara
+            $table->text('foto'); // foto, ijazah, kps, 
+            $table->text('sekolah_asal'); //nama, alamat, angkatan
+            $table->text('ket_tambahan')->nullable(); //tinggi, berat_badan, jarak_tempu , waktu_tempu, hobi,
+            $table->text('prestasi')->nullable(); // [nama_prestasi, tahun, foto_bukti]
+            $table->text('pendaftaran')->nullable(); //waktu_daftar, waktu_konfirmasi_admin, waktu_test_masuk, waktu_daftar_ulang, waktu_diterima, diterima_kelas, minat_jurusan
+            $table->enum('status', [ 'Daftar', 'Verifikasi Admin', 'Absen Test', 'Hadir Test', 'Diterima','Tidak Lolos'])->default('Daftar');
             $table->timestamps();
         });
     }
