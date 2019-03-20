@@ -80,6 +80,7 @@ class RuangKelasController extends Controller
     {
         $rk = RuangKelas::findOrFail($id);
         if (!empty($rk)) {
+            $srk = $rk->struktur()->delete();
             $rk->delete();
             return response()->json(['kode'=>'00'], 200);
         }else{

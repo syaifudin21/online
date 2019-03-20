@@ -17,4 +17,8 @@ class Kelas extends Model
     {
         return $this->hasMany(Mapel::class, 'id_kelas', 'id');
     }
+    public function ruangkelas()
+    {
+        return $this->hasMany(RuangKelas::class, 'id_kelas', 'id');
+    }
 }

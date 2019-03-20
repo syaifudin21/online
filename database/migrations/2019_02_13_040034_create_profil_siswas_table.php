@@ -17,7 +17,7 @@ class CreateProfilSiswasTable extends Migration
             $table->increments('id');
             $table->string('id_ta'); //tahun daftar
             $table->Integer('no_induk')->nullable();
-            $table->Integer('nomor_user')->nullable();
+            $table->string('nomor_user', 12)->nullable();
             $table->bigInteger('nisn');
             $table->string('nama'); //
             $table->string('ttl'); //tempat, tgl
@@ -35,7 +35,7 @@ class CreateProfilSiswasTable extends Migration
             $table->text('ket_tambahan')->nullable(); //tinggi, berat_badan, jarak_tempu , waktu_tempu, hobi,
             $table->text('prestasi')->nullable(); // [nama_prestasi, tahun, foto_bukti]
             $table->text('pendaftaran')->nullable(); //waktu_daftar, waktu_konfirmasi_admin, waktu_test_masuk, waktu_daftar_ulang, waktu_diterima, diterima_kelas, minat_jurusan
-            $table->enum('status', [ 'Daftar', 'Verifikasi Admin', 'Absen Test', 'Hadir Test', 'Diterima','Tidak Lolos'])->default('Daftar');
+            $table->enum('status', [ 'Daftar', 'Verifikasi Admin', 'Diterima','Tidak Lolos'])->default('Daftar');
             $table->timestamps();
         });
     }

@@ -26,21 +26,31 @@
             </div>
             </div>
             <div class="col-md-3">
-                    <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-                        <div class="info">
-                        <h4>Laki-laki</h4>
-                        <p><b>{{$ta->siswaDaftar()->where('jk','Laki-laki')->count()}}</b></p>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-md-3">
-                            <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                <h4>Perempuan</h4>
-                                <p><b>{{$ta->siswaDaftar()->where('jk','Perempuan')->count()}}</b></p>
-                                </div>
-                            </div>
-                            </div>
+            <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                <div class="info">
+                <h4>Tidak Lolos</h4>
+                <p><b>{{$ta->siswaDaftar()->where('status','Tidak Lolos')->count()}}</b></p>
+                </div>
+            </div>
+            </div>
+            
+            <div class="col-md-3">
+            <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                <div class="info">
+                <h4>Daftar Ulang</h4>
+                <p><b>{{$ta->siswaDaftar()->where('status','Verifikasi Admin')->whereRaw('JSON_EXTRACT(pendaftaran, "$.daftar_ulang") is not null')->count()}}</b></p>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-md-3">
+            <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                <div class="info">
+                <h4>Siswa Aktif</h4>
+                <p><b>{{$ta->siswaDaftar()->where('status','Diterima')->whereRaw('JSON_EXTRACT(pendaftaran, "$.daftar_ulang") is not null')->count()}}</b></p>
+                </div>
+            </div>
+            </div>
     </div>
 
     <div class="row">
@@ -101,6 +111,13 @@
                     <div class="tile-body">Test masuk siswa dilakukan pada {{hari_tanggal($ta->tgl_test, true)}}</div>
                     <div class="tile-footer">
                         <a class="btn btn-primary" href="{{route('superadmin.ta.daftarulang',['id'=>$ta->id])}}">Daftar Ulang</a>
+                    </div>
+                  </div>
+            <div class="tile">
+                    <h3 class="tile-title">Manentukan Kelas dan Jurusan Siswa Baru</h3>
+                    <div class="tile-body">Siswa yang telah melakukan daftar ulang dapat ditempatkan pada kelas</div>
+                    <div class="tile-footer">
+                        <a class="btn btn-primary" href="{{route('superadmin.ta.tempatkan',['id'=>$ta->id])}}">Tempatkan Siswa</a>
                     </div>
                   </div>
         </a>

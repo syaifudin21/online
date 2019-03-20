@@ -12,7 +12,9 @@
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
             <li class="breadcrumb-item"><a href="{{route('superadmin.ta.home')}}">Tahun Ajaran</a></li>
-            <li class="breadcrumb-item"><a href="#">{{$profil->ta->siswaDaftar()->count()}}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('superadmin.ta.show',['id' => $profil->id_ta])}}">{{$profil->ta->tahun_ajaran}}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('superadmin.ta.siswa',['id_ta' => $profil->id_ta])}}">Siswa</a></li>
+            <li class="breadcrumb-item"><a href="#">Siswa Edit</a></li>
         </ul>
     </div>
 
@@ -137,7 +139,7 @@
                         </tr>
                         <tr>
                             <td>Waktu Pendaftaran</td>
-                            <td>{{empty($pendaftaran->waktu_daftar)?'': hari_tanggal($pendaftaran->waktu_daftar, true)}}</td>
+                            <td>{{empty($pendaftaran->waktu_daftar)?'': hari_tanggal_waktu($pendaftaran->waktu_daftar, true)}}</td>
                         </tr>
                         <tr>
                             <td>Minat Jurusan</td>

@@ -24,9 +24,10 @@ class KurikulumController extends Controller
     {
         $ta = ProfilSiswa::find($_GET['id']);
         if ($ta->status == 'Hadir Test') {
-            $ta->update(['status' => 'Absen Test']);
+            $ta['pendaftaran->hadir_test'] = '';
         }else{
-            $ta->update(['status' => 'Hadir Test']);
+            $ta['pendaftaran->hadir_test'] = date("Y-m-d H:i:s");
         }
+        $ta->save();
     }
 }

@@ -10,6 +10,9 @@ use App\Models\Kelas;
 use App\Models\ProfilSiswa;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Hash;
+use App\Models\RuangKelas;
+use App\Models\StrukturRuangKelas;
+use DB;
 use Session;
 
 class TahunAjaranController extends Controller
@@ -139,6 +142,30 @@ class TahunAjaranController extends Controller
                 ->paginate(10);
         return view('superadmin.ta-absen', compact('ta', 'siswas'));
     }
+    public function belumAbsenSiswa($id)
+    {
+        $ta = TahunAjaran::findOrFail($id);
+        $siswas = $ta->siswaDaftar()->orderBy('nomor_user', 'ASC')
+                ->where('status', 'Verifikasi Admin')
+                ->paginate(10);
+        return view('superadmin.ta-absen', compact('ta', 'siswas'));
+    }
+    public function hadirSiswaTest($id)
+    {
+        $ta = TahunAjaran::findOrFail($id);
+        $siswas = $ta->siswaDaftar()->orderBy('nomor_user', 'ASC')
+                ->whereRaw('JSON_EXTRACT(pendaftaran, "$.hadir_test") is not null')
+                ->paginate(10);
+        return view('superadmin.ta-absen', compact('ta', 'siswas'));
+    }
+    public function absenSiswaTest($id)
+    {
+        $ta = TahunAjaran::findOrFail($id);
+        $siswas = $ta->siswaDaftar()->orderBy('nomor_user', 'ASC')
+                ->whereRaw('JSON_EXTRACT(pendaftaran, "$.hadir_test") is null')
+                ->paginate(10);
+        return view('superadmin.ta-absen', compact('ta', 'siswas'));
+    }
     
     public function nilaiSiswa($id)
     {
@@ -172,8 +199,12 @@ class TahunAjaranController extends Controller
     {
         $ta = TahunAjaran::findOrFail($idta);
         $siswas = $ta->siswaDaftar()->orderBy('nomor_user', 'ASC')
-                ->Where('status', 'Hadir Test')
+                ->whereRaw('JSON_EXTRACT(pendaftaran, "$.hadir_test") is not null')
                 ->get();
+        
+        $ta->siswaDaftar()->orderBy('nomor_user', 'ASC')
+                ->whereRaw('JSON_EXTRACT(pendaftaran, "$.hadir_test") is null')
+                ->update(['status'=> 'Tidak Lolos']);
 
         foreach ($siswas as $siswa) {
             $pendaftaran = json_decode($siswa->pendaftaran);
@@ -204,28 +235,67 @@ class TahunAjaranController extends Controller
     public function storeDaftarUlang(Request $request)
     {
         $siswa = ProfilSiswa::find($request->id);
+        $find = Siswa::where('nomor_user', $siswa->nomor_user)->first();
         if (!empty(json_decode($siswa->pendaftaran)->daftar_ulang)) {
             $siswa['pendaftaran->daftar_ulang'] = '';
+            $find->delete();
         }else{
             $siswa['pendaftaran->daftar_ulang'] = date("Y-m-d H:i:s");
         }
         $siswa->save();
         if ($siswa) {
-            $user = new Siswa();
-            $user['nama'] = $siswa->nama;
-            $user['username'] = $siswa->nisn;
-            $user['nomor_user'] = $siswa->nomor_user;
-            $user['password'] = Hash::make($siswa->nisn);
-            $user->save();
-            if ($user) {
-                return response()->json(['kode' => '00'], 200);
-            }else{
-                return response()->json(['kode' => '02'], 300);
+            if (empty($find)) {
+                $user = new Siswa();
+                $user['nama'] = $siswa->nama;
+                $user['username'] = $siswa->nomor_user;
+                $user['nomor_user'] = $siswa->nomor_user;
+                $user['password'] = Hash::make($siswa->nisn);
+                $user->save();
             }
+            return response()->json(['kode' => '00'], 200);
         }else{
             return response()->json(['kode' => '01'], 400);
 
         }
+    }
+    public function tempatkan($idta)
+    {
+        $ta = TahunAjaran::findOrFail($idta);
+        $siswas = $ta->siswaDaftar()->orderBy('nomor_user', 'ASC')
+                ->whereRaw('JSON_EXTRACT(pendaftaran, "$.daftar_ulang") is not null')
+                ->Where('status', 'Diterima')
+                ->get();
+        $kelass = $ta->ruangKelas()->join('kelas', 'ruang_kelas.id_kelas','=','kelas.id')
+                ->where('kelas.jenis', 'Pertama')
+                ->select('ruang_kelas','jurusan', 'ruang_kelas.id as id')
+                ->get();
+        return view('superadmin.ta-tempatkan', compact('ta', 'siswas', 'kelass'));
+    }
+    public function tempatkanstore(Request $request)
+    {
+        $nomoruser = $request->nomor_user;
+        $kelassek = $request->kelassek;
+        $srks = StrukturRuangKelas::where(['nomor_user'=>$nomoruser]);
+        if ($srks->count() > 0) {
+            $srkb = $srks->first();
+            $srkb['id_rk'] = $kelassek;
+            $srkb['nomor_user'] = $nomoruser;
+            $srkb['jabatan'] = 'Siswa';
+            $srkb['status'] = 'Daftar';
+            $srkb->save();
+
+            $jml = StrukturRuangKelas::groupBy('id_rk')->select(DB::raw('count(*) as jumlah'), 'id_rk')->get();
+        }else{
+            $srkb = new StrukturRuangKelas();
+            $srkb['id_rk'] = $kelassek;
+            $srkb['nomor_user'] = $nomoruser;
+            $srkb['jabatan'] = 'Siswa';
+            $srkb['status'] = 'Daftar';
+            $srkb->save();
+
+            $jml = StrukturRuangKelas::groupBy('id_rk')->select(DB::raw('count(*) as jumlah'), 'id_rk')->get();
+        };
+        return response()->json(['jml'=> $jml], 200);
     }
    
 }

@@ -64,6 +64,16 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-4" for="id_kelas">Deskripsi</label>
+                            <div class="col-md-7">
+                                <textarea name="deskripsi  {{ $errors->has('dekripsi') ? ' is-invalid' : '' }}" class="form-control" placeholder="Deskripsi" rows="5"></textarea>
+                                @if ($errors->has('deskripsi'))
+                                <small class="form-text text-muted" id="deskripsi">{{ $errors->first('deskripsi')
+                                    }}</small>
+                                @endif
+                            </div>
+                        </div>
                         
                         <input type="hidden" name="redirect" value="{{url()->previous()}}">
                     </form>

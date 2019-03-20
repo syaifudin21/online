@@ -14,10 +14,10 @@ class ProfilSiswa extends Model
     public function ta(){
         return $this->belongsTo(TahunAjaran::class, 'id_ta', 'id');
     }
-    // public function bab()
-    // {
-    //     return $this->hasMany(Bab::class, 'id_mapel', 'id');
-    // }
+    public function struktur()
+    {
+        return $this->hasMany(StrukturRuangKelas::class, 'nomor_user', 'nomor_user');
+    }
 	
 	function createNoUser($nopendaftar){
         $kodesekolah = env('SEKOLAH_KODE');

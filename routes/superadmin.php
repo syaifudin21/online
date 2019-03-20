@@ -53,11 +53,16 @@ Route::put('/tahunajaran/update', 'superadmin\TahunAjaranController@update')->na
 Route::delete('/tahunajaran/delete/{id}', 'superadmin\TahunAjaranController@delete')->name('superadmin.ta.delete');
 Route::get('/tahunajaran/siswa/{id}', 'superadmin\TahunAjaranController@taSiswa')->name('superadmin.ta.siswa');
 Route::get('/tahunajaran/siswa/absen/{id}', 'superadmin\TahunAjaranController@absenSiswa')->name('superadmin.ta.tes.absen');
+Route::get('/tahunajaran/siswa/belumabsen/{id}', 'superadmin\TahunAjaranController@belumAbsenSiswa')->name('superadmin.ta.belumabsen');
+Route::get('/tahunajaran/siswa/testhadir/{id}', 'superadmin\TahunAjaranController@hadirSiswaTest')->name('superadmin.ta.testhadir');
+Route::get('/tahunajaran/siswa/testtidakhadir/{id}', 'superadmin\TahunAjaranController@absenSiswaTest')->name('superadmin.ta.testtidakhadir');
 Route::get('/tahunajaran/siswa/nilai/{id}', 'superadmin\TahunAjaranController@nilaiSiswa')->name('superadmin.ta.tes.nilai');
 Route::post('/tahunajaran/siswa/nilai', 'superadmin\TahunAjaranController@nilaiStore')->name('superadmin.ta.tes.store');
 Route::get('/tahunajaran/siswa/nilailock/{id}', 'superadmin\TahunAjaranController@loknilai')->name('superadmin.ta.lock.nilai');
 Route::get('/tahunajaran/siswa/daftarulang/{id}', 'superadmin\TahunAjaranController@daftarUlang')->name('superadmin.ta.daftarulang');
 Route::post('/tahunajaran/siswa/daftarulang/store', 'superadmin\TahunAjaranController@storeDaftarUlang')->name('superadmin.ta.dddd.store');
+Route::get('/tahunajaran/siswa/tempatkan/{id}', 'superadmin\TahunAjaranController@tempatkan')->name('superadmin.ta.tempatkan');
+Route::post('/tahunajaran/siswa/tempatkan', 'superadmin\TahunAjaranController@tempatkanstore')->name('superadmin.ta.tempatkan.store');
 
 
 Route::get('/siswa/{nomor_user}', 'superadmin\SiswaController@show')->name('superadmin.siswa.show');

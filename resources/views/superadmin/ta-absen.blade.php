@@ -6,23 +6,59 @@
 <main class="app-content">
     <div class="app-title">
         <div>
-            <h1>Tahun Ajaran</h1>
+            <h1>Tahun Ajaran ({{$ta->tahun_ajaran}})</h1>
             <p>Informasi jumlah siswa dalam satu periode pembelajaran</p>
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
             <li class="breadcrumb-item"><a href="{{route('superadmin.ta.home')}}">Tahun Ajaran</a></li>
-            <li class="breadcrumb-item"><a href="#">{{$ta->tahun_ajaran}}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('superadmin.ta.show',['id' => $ta->id])}}">{{$ta->tahun_ajaran}}</a></li>
+            <li class="breadcrumb-item"><a href="#">Daftar Hadir Tes Masuk</a></li>
         </ul>
+    </div>
+
+    <div class="row">
+            <div class="col-md-3">
+                <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                <div class="info">
+                <a href="{{route('superadmin.ta.belumabsen',['id'=>$ta->id])}}" class="text-dark"><h4>Belum Absen</h4></a>
+                    <p><b>{{$ta->siswaDaftar()->Where('status', 'Verifikasi Admin')->count()}}</b></p>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-3">
+            <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                <div class="info">
+                <a href="{{route('superadmin.ta.testtidakhadir',['id'=>$ta->id])}}" class="text-dark"><h4>Tidak Hadir</h4></a>
+                <p><b>{{$ta->siswaDaftar()->whereRaw('JSON_EXTRACT(pendaftaran, "$.hadir_test") is null')->count()}}</b></p>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-3">
+            <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                <div class="info">
+                <a href="{{route('superadmin.ta.testhadir',['id'=>$ta->id])}}" class="text-dark"><h4>Hadir</h4></a>
+                <p><b>{{$ta->siswaDaftar()->whereRaw('JSON_EXTRACT(pendaftaran, "$.hadir_test") is not null')->count()}}</b></p>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-3">
+            <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                <div class="info">
+                <a href="{{route('superadmin.ta.tes.absen',['id'=>$ta->id])}}" class="text-dark"><h4>Total Pendaftar</h4></a>
+                <p><b>{{$ta->siswaDaftar()->count()}}</b></p>
+                </div>
+            </div>
+            </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Tahun Ajaran {{$ta->tahun_ajaran}}
-                 <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                <a class="btn btn-primary mr-1 mb-1 btn-sm" href="{{route('superadmin.ta.show', ['id_ta'=> $ta->id])}}">
-                                    <i class="fa fa-arrow-left "></i>Kembali</a> </div>
+                <h3 class="tile-title">Daftar Hadir Test Siswa
+                    <div class="btn-group float-right">
+                        <a class="btn btn-primary btn-sm" href="{{route('superadmin.ta.show', ['id_ta'=> $ta->id])}}"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    </div>
                 </h3>
                 <div class="bs-component">
                     <table class="table table-sm">
